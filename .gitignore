@@ -4,7 +4,7 @@
 
 # Xcode
 #
-ios/build/*
+ios/build
 !ios/build/Build
 !Project.app
 *.pbxuser
