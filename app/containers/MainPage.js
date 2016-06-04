@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { 
-    View, 
-    Text, 
+import {
+    View,
+    Text,
     StyleSheet
   } from 'react-native'
 import Button from 'react-native-button'
 import { Actions } from 'react-native-router-flux'
 
-class ScoringPage extends Component {
+class MainPage extends Component {
 
   static propTypes = {}
 
@@ -17,27 +17,37 @@ class ScoringPage extends Component {
     super(props)
     this.state = {}
   }
-  
+
   goToScoreHistory() {
     Actions.scoringHistory();
   }
-  
+
   goToHandicap() {
     Actions.handicapCalc();
   }
-  
+
+  goToScorecard() {
+    Actions.scorecard()
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.heading}>{this.props.title}</Text>
+          <Button
+             onPress={this.goToScorecard}
+             style={styles.btnText}
+             containerStyle={[styles.btn, styles.bgGreen]}>
+            Play a round at Longshore
+          </Button>
         <Button
-           onPress={this.goToHandicap} 
+           onPress={this.goToHandicap}
            style={styles.btnText}
-           containerStyle={[styles.btn, styles.bgGreen]}>
+           containerStyle={[styles.btn, styles.bgRed]}>
           Post a Score
         </Button>
         <Button
-           onPress={this.goToScoreHistory} 
+           onPress={this.goToScoreHistory}
            style={styles.btnText}
            containerStyle={[styles.btn, styles.bgBlue]}>
           Score History
@@ -47,7 +57,7 @@ class ScoringPage extends Component {
   }
 }
 
-export default ScoringPage
+export default MainPage
 
 const styles = StyleSheet.create({
   container: {
@@ -68,6 +78,9 @@ const styles = StyleSheet.create({
     padding:8,
     borderRadius:6,
     margin:8
+  },
+  bgRed : {
+    backgroundColor:"#e71919",
   },
   bgGreen : {
     backgroundColor:"#2ecc71",

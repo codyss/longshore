@@ -7,10 +7,10 @@ import {
   TextInput,
   StyleSheet,
   Text,
-  DatePickerIOS,
   TouchableOpacity,
   TouchableHighlight,
 } from 'react-native'
+import Button from 'react-native-button';
 
 class HandicapCalc extends Component {
 
@@ -25,40 +25,46 @@ class HandicapCalc extends Component {
       courseRating: '',
       slopeRating: '',
       differential: '',
+      course: '',
     }
     this.calculateDifferential = this.calculateDifferential.bind(this)
   }
-  
+
   calculateDifferential() {
-    const differential = (this.state.score - this.state.courseRating)*115
-                         /this.state.slopeRating
+    const differential = Math.round((this.state.score - this.state.courseRating)*115/this.state.slopeRating*10)/10;
     this.setState({ differential })
-    this.props.dispatch(customActions.postScore( differential ))
+    this.props.dispatch(customActions.postScore( { ...this.state, differential } ))
+    Actions.scoringHistory()
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <DatePickerIOS 
-          date={(this.state && this.state.date) || new Date()}
-          onDateChange={(newDate) => {
-            this.setState({date: newDate})
-          }}
-          mode={'date'}
-          timeZoneOffsetInMinutes={-1 * new Date().getTimezoneOffset()}
-        />
+        <Text
+          style={styles.header}
+        >
+        Post a score
+        </Text>
         <TextInput
           style={styles.input}
           placeholder={"ESC Score"}
-          placeholderTextColor={"rgba(60,60,211,1)"}
+          placeholderTextColor={"rgba(142,142,142,1)"}
           onChangeText={(score) => {this.setState({score})}}
           onSubmitEditing={() => {this.setState({score: ''})}}
           value={(this.state && this.state.score) || ''}
         />
         <TextInput
           style={styles.input}
+          placeholder={"Course"}
+          placeholderTextColor={"rgba(142,142,142,1)"}
+          onChangeText={(course) => {this.setState({course})}}
+          onSubmitEditing={() => {this.setState({course: ''})}}
+          value={(this.state && this.state.course) || ''}
+        />
+        <TextInput
+          style={styles.input}
           placeholder={"Course Rating"}
-          placeholderTextColor={"rgba(31,31,216,1)"}
+          placeholderTextColor={"rgba(142,142,142,1)"}
           onChangeText={(courseRating) => {this.setState({courseRating})}}
           onSubmitEditing={() => {this.setState({courseRating: ''})}}
           value={(this.state && this.state.courseRating) || ''}
@@ -66,19 +72,11 @@ class HandicapCalc extends Component {
         <TextInput
           style={styles.input}
           placeholder={"Slope Rating"}
-          placeholderTextColor={"rgba(31,31,216,1)"}
+          placeholderTextColor={"rgba(142,142,142,1)"}
           onChangeText={(slopeRating) => {this.setState({slopeRating})}}
           onSubmitEditing={() => {this.setState({slopeRating: ''})}}
           value={(this.state && this.state.slopeRating) || ''}
         />
-        <TouchableOpacity
-          style={{
-            marginTop:10,
-          }}
-          onPress={this.calculateDifferential}
-          activeOpacity={79 / 100}>
-          <Text>Submit Score</Text>
-        </TouchableOpacity>
         <Text
           style={{
             marginTop: 10,
@@ -89,12 +87,13 @@ class HandicapCalc extends Component {
           }}>
           {this.state.differential}
         </Text>
-        <TouchableHighlight
-          onPress={Actions.pop}
-          activeOpacity={75 / 100}
-          underlayColor={"rgb(210,210,210)"}>
-          <Text>Go Home</Text>
-        </TouchableHighlight>
+        <Button
+           onPress={this.calculateDifferential}
+           style={styles.btnText}
+           containerStyle={[styles.btn, styles.bgGreen]}>
+          Submit Score
+        </Button>
+
       </View>
     )
   }
@@ -107,13 +106,35 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(170,170,213,1)',
+    backgroundColor: '#F5FCFF',
+  },
+  header: {
+    fontSize: 20,
+    marginBottom: 10,
   },
   input: {
-    alignSelf: 'center',
-    height: 43, 
+    alignSelf: 'auto',
+    height: 43,
     width: 200,
-    borderWidth: 1,
-    borderColor: "rgba(0,0,0,0)",
+    borderWidth: 2,
+    borderRadius: 5,
+    borderColor: "rgba(50,105,163,1)",
+    marginVertical: 5,
+    paddingLeft: 2,
+  },
+    btnText: {
+    color: "#f2f2f2",
+  },
+  btn : {
+    width:200,
+    padding:8,
+    borderRadius:6,
+    margin:8
+  },
+  bgGreen : {
+    backgroundColor:"#2ecc71",
+  },
+  bgBlue : {
+    backgroundColor:"#3498db",
   },
 });

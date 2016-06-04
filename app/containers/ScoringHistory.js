@@ -1,7 +1,8 @@
 import React, { Component, } from 'react'
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ListView, ScrollView } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import ScoreListItem from '../components/ScoreListItem.js'
 
 
 class ScoringHistory extends Component {
@@ -12,24 +13,32 @@ class ScoringHistory extends Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
-    this.goPop = this.goPop.bind(this);
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.state = {
+      dataSource: ds.cloneWithRows(['row 1', 'row 2']),
+    }
+    this.onScoreSelect = this.onScoreSelect.bind(this);
   }
 
-  goPop() {
-    Actions.pop()
+  onScoreSelect() {
+
   }
-  
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text 
-          onPress={this.goPop} 
-          style={styles.welcome}
-        >
-          {this.props.scores.join(',')}
-        </Text>
-      </View>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        {this.props.scores.length === 0 ?
+          <Text style={styles.noScores}>No Scores - Post a Score</Text> :
+          this.props.scores.map((score, idx) => {
+          return (
+            <ScoreListItem
+              key={idx}
+              score={score}
+              handlePress={this.onScoreSelect}
+            />
+          )
+        })}
+      </ScrollView>
     )
   }
 }
@@ -42,21 +51,20 @@ function mapStateToProps(store) {
 
 export default connect(mapStateToProps)(ScoringHistory)
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    marginTop:64,
+    backgroundColor: '#fdfdfd',
   },
-  welcome: {
+  contentContainer : {
+    justifyContent: "flex-start",
+    alignItems: "stretch",
+  },
+  noScores: {
+    alignSelf: 'center',
     fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+    marginTop: 5,
+    color: '#3dbf69',
+  }
+})
