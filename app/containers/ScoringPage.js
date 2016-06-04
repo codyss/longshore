@@ -1,5 +1,10 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { 
+    View, 
+    Text, 
+    StyleSheet
+  } from 'react-native'
+import Button from 'react-native-button'
 import { Actions } from 'react-native-router-flux'
 
 class ScoringPage extends Component {
@@ -11,23 +16,32 @@ class ScoringPage extends Component {
   constructor(props) {
     super(props)
     this.state = {}
-    this.goToScoreHistory = this.goToScoreHistory.bind(this)
   }
   
   goToScoreHistory() {
-    Actions.scoringHistory({score:75});
+    Actions.scoringHistory();
+  }
+  
+  goToHandicap() {
+    Actions.handicapCalc();
   }
   
   render() {
     return (
       <View style={styles.container}>
-        <Text 
-          onPress={this.goToScoreHistory} 
-          style={styles.welcome}
-        >
-          Test Scoring Page Text
-        </Text>
-        <Text>{this.props.title}</Text>
+        <Text style={styles.heading}>{this.props.title}</Text>
+        <Button
+           onPress={this.goToHandicap} 
+           style={styles.btnText}
+           containerStyle={[styles.btn, styles.bgGreen]}>
+          Post a Score
+        </Button>
+        <Button
+           onPress={this.goToScoreHistory} 
+           style={styles.btnText}
+           containerStyle={[styles.btn, styles.bgBlue]}>
+          Score History
+        </Button>
       </View>
     )
   }
@@ -42,14 +56,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  heading: {
+    fontSize: 30,
+    fontWeight: "100",
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  btnText: {
+    color: "#f2f2f2",
+  },
+  btn : {
+    width:200,
+    padding:8,
+    borderRadius:6,
+    margin:8
+  },
+  bgGreen : {
+    backgroundColor:"#2ecc71",
+  },
+  bgBlue : {
+    backgroundColor:"#3498db",
   },
 });

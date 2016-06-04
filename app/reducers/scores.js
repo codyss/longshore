@@ -1,14 +1,13 @@
 const initialState = {
-  scene: {},
+  scores: [],
 };
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
-    // focus action is dispatched when a new screen comes into focus
-    case "focus":
+    case "POST_SCORE":
       return {
         ...state,
-        scene: action.scene,
+        scores: state.scores.concat(action.score)
       };
 
     // ...other actions

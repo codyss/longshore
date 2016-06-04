@@ -1,5 +1,8 @@
 import React, { Component, } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+
 
 class ScoringHistory extends Component {
 
@@ -10,18 +13,34 @@ class ScoringHistory extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+    this.goPop = this.goPop.bind(this);
   }
 
+  goPop() {
+    Actions.pop()
+  }
+  
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>{this.props.score}</Text>
+        <Text 
+          onPress={this.goPop} 
+          style={styles.welcome}
+        >
+          {this.props.scores.join(',')}
+        </Text>
       </View>
     )
   }
 }
 
-export default ScoringHistory
+function mapStateToProps(store) {
+  return {
+    scores: store.scores.scores
+  }
+}
+
+export default connect(mapStateToProps)(ScoringHistory)
 
 const styles = StyleSheet.create({
   container: {
