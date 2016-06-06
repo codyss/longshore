@@ -27,7 +27,13 @@ class MainPage extends Component {
   }
 
   goToScorecard() {
-    Actions.scorecard()
+    Actions.scorecard({
+      hole: {
+        par: 4,
+        number: 1,
+      },
+      course: [4,3,4,4,4,4,5,3,4,5,3,4,3,4,3,4,4,4],
+    })
   }
 
   render() {

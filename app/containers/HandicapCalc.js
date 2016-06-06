@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     paddingLeft: 2,
   },
-    btnText: {
+  btnText: {
     color: "#f2f2f2",
   },
   btn : {

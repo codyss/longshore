@@ -9,10 +9,11 @@ const RouterWithRedux = connect()(Router);
 import reducers from './reducers';
 // other imports...
 
-import MainPage from './containers/MainPage.js'
-import ScoringHistory from './containers/ScoringHistory.js'
-import HandicapCalc from './containers/HandicapCalc.js'
-import Scorecard from './containers/Scorecard.js'
+import MainPage from './containers/MainPage.js';
+import ScoringHistory from './containers/ScoringHistory.js';
+import HandicapCalc from './containers/HandicapCalc.js';
+import Scorecard from './containers/Scorecard.js';
+import RoundSummary from './containers/RoundSummary.js';
 
 // create store...
 const middleware = [thunk];
@@ -30,6 +31,7 @@ export default class App extends React.Component {
            <Scene key="scoringHistory" component={ScoringHistory} title="Scoring History"  hideNavBar={false}/>
            <Scene key="handicapCalc" component={HandicapCalc} title="Handicap Calculator" hideNavBar={false}/>
            <Scene key="scorecard" component={Scorecard} title="Scorecard" hideNavBar={false}/>
+           <Scene key="roundSummary" component={RoundSummary} title="Round Summary" hideNavBar={false}/>
          </Scene>
        </RouterWithRedux>
     </Provider>

@@ -21,12 +21,15 @@ class ScoringHistory extends Component {
   }
 
   onScoreSelect() {
-
+    
   }
 
   render() {
     return (
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
         {this.props.scores.length === 0 ?
           <Text style={styles.noScores}>No Scores - Post a Score</Text> :
           this.props.scores.map((score, idx) => {
