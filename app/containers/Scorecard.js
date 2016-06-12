@@ -10,7 +10,7 @@ import {
   } from 'react-native';
 import Button from 'react-native-button';
 
-import { submitHole } from '../actions/scores.js'
+import { submitHole, startRound } from '../actions/scores.js'
 
 class Scorecard extends React.Component {
   static propTypes = {
@@ -22,12 +22,16 @@ class Scorecard extends React.Component {
     this.state = {
       par: this.props.hole.par,
       number: this.props.hole.number,
-      score: 0,
+      score: this.props.hole.par,
       fairway: '',
       green: '',
-      putts: '',
+      putts: 2,
     };
     this.finishHole = this.finishHole.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.dispatch(startRound())
   }
 
   finishHole() {
@@ -40,16 +44,16 @@ class Scorecard extends React.Component {
     this.setState({
       par: this.props.course[this.state.number],
       number: this.state.number+1,
-      score: '',
+      score: this.props.course[this.state.number],
       fairway: '',
       green: '',
-      putts: '',
+      putts: 2,
     })
   }
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={this.state.number <= 18 ? styles.container : styles.hide}>
         <Text style={styles.header}>
           Hole {this.state.number}
         </Text>
@@ -110,14 +114,7 @@ class Scorecard extends React.Component {
                 ]}>
                 Hit
               </Button>
-              <Button
-                onPress={() => {this.setState({fairway: 0})}}
-                style={styles.btnText}
-                containerStyle={[styles.fairwayBtn, styles.bgRed,
-                  this.state.fairway === 0 ? styles.selected : styles.blank
-                ]}>
-                Missed
-              </Button>
+
             </View>
           </View>
         }
@@ -134,14 +131,7 @@ class Scorecard extends React.Component {
                ]}>
               Hit
             </Button>
-            <Button
-               onPress={() => {this.setState({green: 0})}}
-               style={styles.btnText}
-               containerStyle={[styles.fairwayBtn, styles.bgRed,
-                 this.state.green === 0 ? styles.selected : styles.blank
-               ]}>
-              Missed
-            </Button>
+
           </View>
         </View>
         <View>
@@ -168,7 +158,7 @@ class Scorecard extends React.Component {
             <Button
                onPress={() => {this.setState({putts: 3})}}
                style={styles.btnText}
-               containerStyle={[styles.fairwayBtn, styles.bgRed,
+               containerStyle={[styles.fairwayBtn, styles.bgGreen,
                  this.state.putts === 3 ? styles.selected : styles.blank
                ]}>
               3
@@ -247,7 +237,7 @@ const styles = StyleSheet.create({
   selected: {
     borderWidth: 2,
     borderColor: '#000000',
-    backgroundColor: '#bec70a'
+    backgroundColor: '#25834d'
   },
   bgGreen : {
     backgroundColor:"#2ecc71",
@@ -261,4 +251,7 @@ const styles = StyleSheet.create({
   bgBlue : {
     backgroundColor:"#3498db",
   },
+  hide : {
+    opacity: 0,
+  }
 });

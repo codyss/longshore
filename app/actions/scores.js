@@ -5,6 +5,12 @@ export function postScore(score) {
   }
 }
 
+export function startRound() {
+  return {
+    type: 'START_ROUND',
+  }
+}
+
 export function submitHole(holeStats) {
   return {
     type: 'SUBMIT_HOLE',
@@ -14,6 +20,13 @@ export function submitHole(holeStats) {
 
 export function finishRound() {
   return {
-    type: 'FINISH_ROUND'
+    type: 'FINISH_ROUND',
+  }
+}
+
+export function viewRound(id) {
+  return {
+    type: "VIEW_ROUND",
+    id,
   }
 }

@@ -2,6 +2,7 @@ import React, { Component, } from 'react'
 import { View, Text, StyleSheet, ListView, ScrollView } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { viewRound } from '../actions/scores.js'
 import ScoreListItem from '../components/ScoreListItem.js'
 
 
@@ -13,15 +14,17 @@ class ScoringHistory extends Component {
 
   constructor(props) {
     super(props)
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    this.state = {
-      dataSource: ds.cloneWithRows(['row 1', 'row 2']),
-    }
+    // const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    // this.state = {
+    //   dataSource: ds.cloneWithRows(['row 1', 'row 2']),
+    // }
     this.onScoreSelect = this.onScoreSelect.bind(this);
   }
 
-  onScoreSelect() {
-    
+  onScoreSelect(e) {
+    console.log(e);
+    this.props.dispatch(viewRound(e.id));
+    Actions.roundSummary({hideSave:true});
   }
 
   render() {
@@ -36,6 +39,7 @@ class ScoringHistory extends Component {
           return (
             <ScoreListItem
               key={idx}
+              id={score.id}
               score={score}
               handlePress={this.onScoreSelect}
             />
@@ -48,7 +52,7 @@ class ScoringHistory extends Component {
 
 function mapStateToProps(store) {
   return {
-    scores: store.scores.scores
+    scores: store.scores.rounds,
   }
 }
 
