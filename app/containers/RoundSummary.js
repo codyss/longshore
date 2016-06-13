@@ -25,22 +25,6 @@ class RoundSummary extends Component {
     this.postScore = this.postScore.bind(this);
   }
 
-  componentDidMount() {
-    // Finalize the round - compute stats
-    this.props.dispatch(finishRound())
-    // TODO Persist the round
-
-  }
-  //
-  // componentWillReceiveProps(nextProps) {
-  //   if(nextProps.rounds !== this.props.rounds && nextProps.rounds.length) {
-  //       this.setState({
-  //         round: nextProps.roundToView,
-  //         // round: nextProps.rounds.slice(-1)[0]
-  //       })
-  //   }
-  // }
-
   postScore() {
     const differential = Math.round((this.props.roundToView.score - 68.8)*115/122*10)/10;
     this.props.dispatch(postScore( { ...this.props.roundToView, ...{
@@ -54,12 +38,13 @@ class RoundSummary extends Component {
 
   render() {
     // TODO style the round output well
+    const { roundToView } = this.props
     return (
         <View style={styles.container}>
-          <Text style={styles.results}>Score: {this.props.roundToView.score}</Text>
-          <Text style={styles.results}>Fairways: {this.props.roundToView.fairways} ({Math.round(this.props.roundToView.fairways/13*100)}%)</Text>
-          <Text style={styles.results}>Greens: {this.props.roundToView.greens} ({Math.round(this.props.roundToView.greens/18*100)}%)</Text>
-          <Text style={styles.results}>Putts: {this.props.roundToView.putts}</Text>
+          <Text style={styles.results}>Score: {roundToView.score}</Text>
+          <Text style={styles.results}>Fairways: {roundToView.fairways} ({Math.round(roundToView.fairways/13*100)}%)</Text>
+          <Text style={styles.results}>Greens: {roundToView.greens} ({Math.round(roundToView.greens/18*100)}%)</Text>
+          <Text style={styles.results}>Putts: {roundToView.putts}</Text>
           <Button
             style={[styles.btn, styles.bgBlue].concat(this.props.hideSave ? styles.hide : styles.none)}
             onPress={this.postScore}

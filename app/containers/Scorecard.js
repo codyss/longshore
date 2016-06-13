@@ -10,7 +10,7 @@ import {
   } from 'react-native';
 import Button from 'react-native-button';
 
-import { submitHole, startRound } from '../actions/scores.js'
+import { submitHole, startRound, finishRound } from '../actions/scores.js'
 
 class Scorecard extends React.Component {
   static propTypes = {
@@ -40,7 +40,11 @@ class Scorecard extends React.Component {
         score: this.state.score || this.state.par,
         putts: this.state.putts || 2,
     }));
-    if(this.state.number === 18) Actions.roundSummary();
+    if(this.state.number === 18) {
+      // Finalize the round - compute stats
+      this.props.dispatch(finishRound())
+      Actions.roundSummary();
+    }
     this.setState({
       par: this.props.course[this.state.number],
       number: this.state.number+1,

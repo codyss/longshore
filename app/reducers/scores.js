@@ -9,11 +9,10 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case "POST_SCORE":
+      action.score.id = state.rounds.length;
       return {
         ...state,
-        // scores: state.scores.concat(action.score),
         rounds: state.rounds.concat(action.score),
-        id: state.rounds.length,
       };
     case "START_ROUND":
       return {
@@ -28,7 +27,7 @@ export default function reducer(state = initialState, action = {}) {
     case "VIEW_ROUND":
       return {
         ...state,
-        roundToView: state.rounds.filter(round => round.id === action.id),
+        roundToView: state.rounds.filter(round => round.id === action.id)[0],
       }
     case "FINISH_ROUND":
       let roundStats = state.holes.reduce((round, hole) => {
@@ -42,11 +41,9 @@ export default function reducer(state = initialState, action = {}) {
         fairways: 0,
         greens: 0,
         putts: 0,
-        // id: state.rounds.length,
       })
       return {
         ...state,
-        // rounds: state.rounds.concat(roundStats),
         roundToView: roundStats,
       }
     default:

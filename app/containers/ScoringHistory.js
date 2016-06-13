@@ -14,15 +14,10 @@ class ScoringHistory extends Component {
 
   constructor(props) {
     super(props)
-    // const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    // this.state = {
-    //   dataSource: ds.cloneWithRows(['row 1', 'row 2']),
-    // }
     this.onScoreSelect = this.onScoreSelect.bind(this);
   }
 
   onScoreSelect(e) {
-    console.log(e);
     this.props.dispatch(viewRound(e.id));
     Actions.roundSummary({hideSave:true});
   }
